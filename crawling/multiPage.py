@@ -17,6 +17,8 @@ for i in range(1, 27, 1):
     links = soup.select('.item_thumb')
 
     for link in links:
+        # select_one 이 아닌 select 로 조회 시 배열로 조회되어 .text 속성을 사용할 수 없기 때문에 주의!
+        # ERROR: ResultSet object has no attribute 'text'. You're probably treating a list of elements like a single element. Did you call find_all() when you meant to call find()?
         attribute = link.select_one('.list_ex')
         print(attribute.text)
         print('--------------------------------------')
