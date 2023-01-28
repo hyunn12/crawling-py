@@ -1,3 +1,6 @@
+import string
+import re
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -20,12 +23,28 @@ for i in range(1, 27, 1):
         # select_one 이 아닌 select 로 조회 시 배열로 조회되어 .text 속성을 사용할 수 없기 때문에 주의!
         # ERROR: ResultSet object has no attribute 'text'. You're probably treating a list of elements like a single element. Did you call find_all() when you meant to call find()?
         attribute = link.select_one('.list_ex')
-        print(attribute.text)
-        print('--------------------------------------')
-        name = link.select_one('.listImg > a > img')
-        print(name.attrs['alt'])
-        print('--------------------------------------')
+        text = attribute.text
+        print(text)
 
+        # 종류
+        print('[종류]', text.split('종류 : ')[1].split('용량')[0])
+
+        # 용량(ml)
+        print('[용량]', text.split('용량 : ')[1].split('알콜도수')[0])
+
+        # 도수
+        print('[도수]', text.split('알콜도수 : ')[1].split('%')[0])
+
+        print('--------------------------------------')
+        img = link.select_one('.listImg > a > img')
+        # print(img.attrs['alt'])
+        # 이름
+        print(re.split(r'[\[\]{}():]+', img.attrs['alt'])[0])
+
+        # 사진
+        print(img.attrs['src'])
+
+        print('--------------------------------------')
     print('========================================================================================')
 
 
